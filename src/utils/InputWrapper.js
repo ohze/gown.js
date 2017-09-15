@@ -1,6 +1,13 @@
 /**
  * wrapper for text inputs
  * (keyboard on mobile or DOM input field in browser)
+ *
+ * Based on PIXI.Input InputObject by Sebastian Nette,
+ * see https://github.com/SebastianNette/PIXI.Input
+ *
+ * @class InputWrapper
+ * @memberof GOWN
+ * @static
  */
 
 function InputWrapper(manager, name) {
@@ -9,10 +16,20 @@ function InputWrapper(manager, name) {
 }
 module.exports = InputWrapper;
 
+/**
+ * Focus the text input
+ *
+ * @function GOWN.InputWrapper.focus
+ */
 InputWrapper.prototype.focus = function(tagName) {
     // TODO: needed?
 };
 
+/**
+ * Blur the text input
+ *
+ * @function GOWN.InputWrapper.blur
+ */
 InputWrapper.prototype.blur = function() {
     // TODO: needed?
 };

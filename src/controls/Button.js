@@ -13,14 +13,36 @@ var Control = require('../core/Control');
  * @constructor
  */
 function Button(theme, skinName) {
+    /**
+     * The valid button states
+     *
+     * @private
+     * @type String[]
+     * @default Button.stateNames
+     */
     this._validStates = this._validStates || Button.stateNames;
+
+    /**
+     * The skin name
+     *
+     * @type String
+     * @default Button.SKIN_NAME
+     */
     this._skinName = skinName || Button.SKIN_NAME;
     Skinable.call(this, theme);
 
     this.textStyle = this.textStyle || new ThemeFont();
     this._label = "";
 
-    this.updateLabel = false; // label text changed
+    /**
+     * Invalidate label when the label text changed
+     * so that it will be redrawn next time
+     *
+     * @private
+     * @type bool
+     * @default true
+     */
+    this.updateLabel = false;
 
     this.handleEvent(Button.UP);
 

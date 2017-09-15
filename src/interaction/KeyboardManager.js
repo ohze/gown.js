@@ -84,7 +84,7 @@ KeyboardManager.prototype._keyDownEvent = function(event) {
 /**
  * Handle original keyboard event from wrapper and forward it
  *
- * @param event {Event} The event from the wrapper
+ * @param event {Event} The event of a key being released {Event} from the wrapper
  * @private
  */
 KeyboardManager.prototype._keyUpEvent = function(event) {

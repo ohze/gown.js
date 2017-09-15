@@ -1,7 +1,7 @@
 var Button = require('./Button');
 
 /**
- * basic button that has a selected state which indicates if the button
+ * Basic button that has a selected state which indicates if the button
  * is pressed or not.
  *
  * @class ToggleButton
@@ -11,14 +11,22 @@ var Button = require('./Button');
  */
 function ToggleButton(theme, skinName) {
     this._skinName = skinName || ToggleButton.SKIN_NAME;
+    /**
+     * The valid toggle button states
+     *
+     * @private
+     * @type String[]
+     * @default ToggleButton.stateNames
+     */
     this._validStates = ToggleButton.stateNames;
     Button.call(this, theme, this._skinName);
 
     /**
      * The pressed state of the Button
      *
-     * @property selected
+     * @private
      * @type Boolean
+     * @default false
      */
     this._selected = false;
     this._skinFallback = 'up';
@@ -33,16 +41,59 @@ module.exports = ToggleButton;
  * programmatically or as a result of user interaction.The value of the
  * <code>selected</code> property indicates whether the button is selected.
  * or not.
+ *
+ * @static
+ * @final
+ * @type String
  */
 ToggleButton.CHANGE = 'change';
 
+/**
+ * Default toggle button skin name
+ *
+ * @static
+ * @final
+ * @type String
+ */
 ToggleButton.SKIN_NAME = 'toggle_button';
 
+/**
+ * Selected up state: mouse button is released or finger is removed from the screen + the toggle button is selected
+ *
+ * @static
+ * @final
+ * @type String
+ */
 ToggleButton.SELECTED_UP = 'selected_up';
+
+/**
+ * Selected down state: mouse button is pressed or finger touches the screen + the toggle button is selected
+ *
+ * @static
+ * @final
+ * @type String
+ */
 ToggleButton.SELECTED_DOWN = 'selected_down';
+
+/**
+ * Selected hover state: mouse pointer hovers over the button + the toggle button is selected
+ * (ignored on mobile)
+ *
+ * @static
+ * @final
+ * @type String
+ */
 ToggleButton.SELECTED_HOVER = 'selected_hover';
 ToggleButton.SELECTED_DISABLE = 'selected_disable';
 
+/**
+ * Names of possible states for a toggle button
+ *
+ * @static
+ * @final
+ * @type String[]
+ * @private
+ */
 ToggleButton.stateNames = Button.stateNames.concat([
     ToggleButton.SELECTED_UP,
     ToggleButton.SELECTED_DOWN,
@@ -50,13 +101,15 @@ ToggleButton.stateNames = Button.stateNames.concat([
     ToggleButton.SELECTED_DISABLE
 ]);
 
-
+/**
+ * @private
+ */
 var originalCurrentState = Object.getOwnPropertyDescriptor(Button.prototype, 'currentState');
 
 /**
- * The current state (one of _validStates)
+ * The current state
  *
- * @property currentState
+ * @name GOWN.ToggleButton#currentState
  * @type String
  */
 Object.defineProperty(ToggleButton.prototype, 'currentState',{
@@ -72,10 +125,12 @@ Object.defineProperty(ToggleButton.prototype, 'currentState',{
 });
 
 /**
- * set selection state
- * @param selected {bool} value of selection
- * @param emit {bool=false} set to true if you want to emit the change signal
- *        (used to prevent infinite loop in ToggleGroup)
+ * Set the selection state
+ *
+ * @param selected value of selection {bool}
+ * @param [emit] set to true if you want to emit the change signal
+ *        (used to prevent infinite loop in ToggleGroup) {bool}
+ * @private
  */
 ToggleButton.prototype.setSelected = function(selected, emit) {
     var state = this._currentState;
@@ -96,8 +151,9 @@ ToggleButton.prototype.setSelected = function(selected, emit) {
 /**
  * Indicate if the button is selected (pressed)
  *
- * @property selected
+ * @name GOWN.ToggleButton#selected
  * @type Boolean
+ * @default false
  */
 Object.defineProperty(ToggleButton.prototype, 'selected', {
     set: function(selected) {
@@ -109,19 +165,21 @@ Object.defineProperty(ToggleButton.prototype, 'selected', {
 });
 
 /**
- * toggle state
+ * Toggle the state
  */
 ToggleButton.prototype.toggle = function() {
     this.selected = !this._selected;
 };
 
-
+/**
+ * @private
+ */
 ToggleButton.prototype.buttonHandleEvent = Button.prototype.handleEvent;
 
 /**
- * handle Touch/Tab Event
- * @method handleEvent
- * @param {Object} type the type of the press/touch.
+ * handle the touch/tap event
+ *
+ * @param type the type of the press/touch. {Object}
  * @protected
  **/
 ToggleButton.prototype.handleEvent = function(type) {
@@ -134,12 +192,11 @@ ToggleButton.prototype.handleEvent = function(type) {
     }
 };
 
-
 /**
- * fallback skin if other skin does not exist (e.g. if a mobile theme
+ * The fallback skin if the other skin does not exist (e.g. if a mobile theme
  * that does not provide a "hover" state is used on a desktop system)
  *
- * @property skinFallback
+ * @name GOWN.ToggleButton#skinFallback
  * @type String
  */
 Object.defineProperty(ToggleButton.prototype, 'skinFallback', {
@@ -154,4 +211,3 @@ Object.defineProperty(ToggleButton.prototype, 'skinFallback', {
         this._skinFallback = value;
     }
 });
-

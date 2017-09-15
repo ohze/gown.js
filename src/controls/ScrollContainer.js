@@ -1,10 +1,13 @@
 var Scroller = require('./Scroller');
 
 /**
+ * ScrollContainer (not implemented yet)
+ *
  * @class ScrollContainer
  * @extends GOWN.Scroller
  * @memberof GOWN
  * @constructor
+ * @param [theme] theme for the scroll container {GOWN.Theme}
  */
 function ScrollContainer(theme) {
     Scroller.call(this, theme);

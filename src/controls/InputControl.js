@@ -26,15 +26,26 @@ function InputControl(isWeb, theme, settings) {
 
     this.receiveKeys = true;
 
-    // prevent other interaction (touch/move) on this component
-    // (to allow text selection, set to true if you like to have the
-    //  InputControl as child of some element that can be moved)
-    // thid does NOT effect text input
+    /**
+     * Prevent other interaction (touch/move) on this component
+     * (to allow text selection, set to true if you like to have the
+     * InputControl as child of some element that can be moved)
+     * thid does NOT effect text input
+     * @type bool
+     * @default false
+     */
+
     this.autoPreventInteraction = this.settings.autoPreventInteraction || false;
 
     this._inputType = this.settings.inputType || 'text';
 
-    // offset from the top-left corner in pixel to the skin
+    /**
+     * offset from the top-left corner in pixel to the skin
+     *
+     * @type PIXI.Point
+     * @default new PIXI.Point(5, 4)
+     * @private
+     */
     this.textOffset = this.settings.textOffset || new PIXI.Point(5, 4);
 
     this.clipContent = this.settings.clipContent || true;
@@ -93,6 +104,14 @@ function InputControl(isWeb, theme, settings) {
         KeyboardManager.wrapper.createInput(this.settings.type);
         this.wrapperType = this.settings.type;
     }
+
+    /**
+     * Current position of the cursor in the text
+     *
+     * @type Number
+     * @default 0
+     * @private
+     */
     this.cursorPos = 0;
 
     this._prevSelection = KeyboardManager.wrapper.selection;
@@ -200,8 +219,7 @@ InputControl.stateNames = [
 ];
 
 /**
- * currently selected input control
- * (used for tab index)
+ * currently selected input control (used for tab index)
  *
  * @property currentInput
  * @type GOWN.InputControl
@@ -221,6 +239,11 @@ InputControl.prototype.addEvents = function() {
     this.on('keydown', this.inputChangeEvent);
 };
 
+/**
+ * Input changed callback
+ *
+ * @protected
+ */
 InputControl.prototype.onInputChanged = function () {
     if (!this.hasFocus) {
         return;
@@ -483,7 +506,7 @@ InputControl.prototype.textWidth = function(text) {
 
 InputControl.prototype.inputBaseFocus = InputBase.prototype.focus;
 /**
- * focus on this input and set it as current
+ * Focus on this input and set it as current
  * @param time // fix to ios platform
  * @method focus
  */
@@ -608,6 +631,11 @@ InputControl.prototype.onMove = function (e) {
 
 InputControl.prototype.inPutBaseOnDown = InputBase.prototype.onDown;
 
+/**
+ * onDown callback
+ *
+ * @protected
+ */
 InputControl.prototype.onDown = function (e) {
     if (this.autoPreventInteraction) {
         e.stopPropagation();
@@ -636,6 +664,11 @@ InputControl.prototype.onDown = function (e) {
 
 InputControl.prototype.inputBaseOnUp = InputBase.prototype.onUp;
 
+/**
+ * onUp callback
+ *
+ * @protected
+ */
 InputControl.prototype.onUp = function (e) {
     if (this.autoPreventInteraction) {
         e.stopPropagation();
