@@ -124,7 +124,7 @@ function InputControl(isWeb, theme, settings) {
     //SD: set style for text input
     this.style = this.settings.style || this.style || new ThemeFont();
 
-    this.colorCursor = this.colorCursor || 0x000000;
+    this._colorCursor = this._colorCursor || 0x000000;
 
     this.cursorView = new PIXI.Graphics();
     this.cursorView.x = 0;
@@ -274,8 +274,8 @@ InputControl.prototype.initCursor = function() {
     if (this.cursorView) {
         this.cursorView.clear();
         this.cursorView._index = 0;
-        this.cursorView.lineStyle(this.settings.caretWidth || 2, this.colorCursor, 1);
-        this.cursorView.moveTo(0, 2);
+        this.cursorView.lineStyle(this.settings.caretWidth || 2, this._colorCursor, 1);
+        this.cursorView.moveTo(0, 0);
         var lineHeight = this.lineHeight();
         this.cursorView.lineTo(0, lineHeight);
     }
@@ -575,10 +575,14 @@ InputControl.prototype.lineHeight = function() {
     var lineHeight = style.lineHeight || fontSize + strokeThickness;
     if(this.pixiText && this.settings.mode !== 'textarea') {
         return Math.max(lineHeight, this.pixiText.height);
+    }else if(this.pixiText && this.settings.mode === 'textarea'){
+        this.tmp.style = this.pixiText.style;
+        lineHeight = this.tmp.height;
     }
     return lineHeight;
 };
 
+InputControl.prototype.tmp = new PIXI.Text("TEST");
 /**
  * draw the cursor
  *
@@ -820,6 +824,17 @@ Object.defineProperty(InputControl.prototype, 'pattern', {
         this._patternReg = new RegExp(this._pattern);
     }
 });
+
+Object.defineProperty(InputControl.prototype, 'colorCursor', {
+    get: function () {
+        return this._colorCursor;
+    },
+    set: function (value) {
+        this._colorCursor = value || 0x000000;
+        this.initCursor();
+    }
+});
+
 /**
  * The current state (one of _validStates)
  * TODO: move to skinable?
