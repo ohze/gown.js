@@ -87,7 +87,7 @@ Object.defineProperty(Control.prototype, 'enabled', {
     }
 });
 
-Control.prototype._visible = PIXI.Container.prototype.visible;
+Control.prototype._visible = PIXI.DisplayObject.prototype.visible;
 
 Object.defineProperty(Control.prototype, 'visible', {
     get: function() {
