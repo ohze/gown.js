@@ -56,6 +56,7 @@ DOMInputWrapper.prototype.createInput = function (tagName) {
         var domInput = document.createElement(tagName);
         domInput.setAttribute("type", "text");
         domInput.setAttribute("autocapitalize", "none");
+        domInput.setAttribute("id", "_pui_tempInput");
         document.body.appendChild(domInput);
         this.hideInput(domInput);
         this.addEventListener(domInput);
@@ -71,8 +72,6 @@ DOMInputWrapper.prototype.hideInput = function (domInput) {
     domInput.style.position = 'fixed';
     domInput.style.opacity = 0;
     domInput.style.pointerEvents = 'none';
-    domInput.style.left = '0px';
-    domInput.style.bottom = '0px';
     domInput.style.left = '-100px';
     domInput.style.top = '-100px';
     domInput.style.zIndex = 10;
@@ -151,10 +150,7 @@ DOMInputWrapper.platform = 'web';
 DOMInputWrapper.prototype.focus = function (tagName) {
     this.tagName = tagName;
     if (DOMInputWrapper.hiddenInput[this.tagName]) {
-        var _this = this;
-        setTimeout(function (args) {
-            DOMInputWrapper.hiddenInput[_this.tagName].focus();
-        }, 150)
+        DOMInputWrapper.hiddenInput[this.tagName].focus();
     }
 };
 

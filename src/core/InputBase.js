@@ -7,18 +7,13 @@ function InputBase(isWeb, theme, settings) {
     this.isWeb = isWeb;
     this._useTab = (settings.useTab || true);
     this._hasFocus = settings.hasFocus || false;
-    this._mouseDown = false;
     this._tabIndex = settings.tabIndex || -1;
     this._tabGroup = settings._tabGroup || null;
     this._enterFunction = null;
 
     Skinable.call(this, theme);
 
-    this.on("pointerup", this.onDown, this);
-
-    this.on("pointerupoutside", this.onMouseUpOutside, this);
-
-   // this.handleKeyDown = this.keyDownEvent.bind(this);
+    this.on("pointerup", this.onPointerUp, this);
 
 }
 
@@ -54,50 +49,15 @@ Object.defineProperty(InputBase.prototype, 'enterFunction', {
 });
 
 InputBase.prototype.stageMouseDown = function(e) {
-    console.log("stageMouseDown", e, 'this._hasFocus: ' + this._hasFocus, 'this._mouseDown: ' + this._mouseDown);
-
-    if(this._hasFocus && this._mouseDown) {
+    if(this._hasFocus) {
         console.log("stageMouseDown blur");
         this.blur();
     }
 };
 
-InputBase.prototype.onMouseUpOutside = function(e) {
-    console.log("onMouseUpOutside", this._hasFocus, this._mouseDown);
-    this.onUp(e);
-    if(this._hasFocus) {
-        if(!this.isWeb) this.blur();
-    }
-};
 
-// InputBase.prototype.keyDownEvent = function (e) {
-//
-//     if (e.which === 9) {
-//         if (this._useTab && this.focusGroup) {
-//             this.focusGroup.fireTab();
-//             e.preventDefault();
-//         }
-//     }
-//     else if (e.which === 38) {
-//         if (this._usePrev && this.focusGroup) {
-//             this.focusGroup.firePrev();
-//             e.preventDefault();
-//         }
-//     }
-//     else if (e.which === 40) {
-//         if (this._useNext && this.focusGroup) {
-//             this.focusGroup.fireNext();
-//             e.preventDefault();
-//         }
-//     }
-// };
-
-
-InputBase.prototype.onDown = function(e) {
-    this._mouseDown = true;
-    console.log('onDown');
-    // this.on("pointerup", this.onUp, this);
-    // this.on("pointermove", this.onMove, this);
+InputBase.prototype.onPointerUp = function(e) {
+    console.log('onPointerUp');
     this.focus();
     if (e) e.data.originalEvent.preventDefault();
 };
@@ -105,24 +65,23 @@ InputBase.prototype.onDown = function(e) {
 InputBase.prototype.onMove = function(e) {
 };
 
-InputBase.prototype.onUp = function(e) {
-    console.log("onUp");
-    // this.off("pointerup", this.onUp, this);
-    // this.off("pointermove", this.onMove, this);
-    this._mouseDown = false;
-};
-
 InputBase.prototype.focus = function () {
+    console.log('call focus1');
     if (!this._hasFocus) {
         this._hasFocus = true;
-        this._bindEvents();
+        var that = this;
+        setTimeout(function () {
+            that._bindEvents();
+        }, 0);
         InputController.set(this);
         this.emit(InputBase.FocusIn);
+        console.log('call focus');
     }
 };
 
 InputBase.prototype.blur = function () {
     if (this._hasFocus) {
+        console.log('call blur');
         InputController.clear();
         this._hasFocus = false;
         this._clearEvents();
@@ -164,14 +123,21 @@ InputBase.prototype._bindEvents = function () {
     }
     if (this.stage !== null) {
         this.stage.interactive = true;
-        if(!this.isWeb) this.stage.on("pointerdown", this.stageMouseDown, this);
-        //document.addEventListener("keydown", this.handleKeyDown);
+        if(!this.isWeb) this.stage.on("pointerup", this.stageMouseDown, this);
     }
 };
 
 InputBase.prototype._clearEvents = function () {
     if (this.stage !== null) {
-        if(!this.isWeb) this.stage.off("pointerdown", this.stageMouseDown, this);
-        //document.removeEventListener("keydown", this.handleKeyDown);
+        if(!this.isWeb) this.stage.off("pointerup", this.stageMouseDown, this);
     }
 };
+
+InputBase.prototype.keyboardShowHandler = function(e){
+    console.log('call _bindEvents1', this, e, this._hasFocus);
+    if (this._hasFocus){
+        console.log('call _bindEvents', this);
+        this._bindEvents();
+    }
+};
+

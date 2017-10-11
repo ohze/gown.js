@@ -502,19 +502,18 @@ InputControl.prototype.focus = function () {
     InputControl.currentInput = this;
     console.log("focus", this.text, this.cursorPos);
 
+    KeyboardManager.wrapper.focus(this.wrapperType);
+
     // update the hidden input text, type, maxchars
     KeyboardManager.wrapper.text = this.value;
     KeyboardManager.wrapper.type = this._inputType;
     this.maxChars = this._maxChars;
     if (this._prevSelection) KeyboardManager.wrapper.updateSelection(this._prevSelection[0], this._prevSelection[1]);
-    KeyboardManager.wrapper.focus(this.wrapperType);
     // update cursor position
-    if (!this._mouseDown) {
-        console.log("focus", this.cursorPos);
-        this.setCursorPos();
-        this._cursorNeedsUpdate = true;
-        KeyboardManager.wrapper.setCursorPos(this.cursorPos);
-    }
+    this.setCursorPos();
+    KeyboardManager.wrapper.setCursorPos(this.cursorPos);
+    this._cursorNeedsUpdate = true;
+
     this.inputBaseFocus();
 };
 
@@ -588,7 +587,7 @@ InputControl.prototype.onMove = function (e) {
     }
 
     var mouse = e.data.getLocalPosition(this.pixiText);
-    if (!this.hasFocus || !this._mouseDown) { // || !this.containsPoint(mouse)) {
+    if (!this.hasFocus) { // || !this.containsPoint(mouse)) {
         return false;
     }
 
@@ -606,9 +605,9 @@ InputControl.prototype.onMove = function (e) {
     return true;
 };
 
-InputControl.prototype.inPutBaseOnDown = InputBase.prototype.onDown;
+InputControl.prototype.inPutBaseOnUp = InputBase.prototype.onPointerUp;
 
-InputControl.prototype.onDown = function (e) {
+InputControl.prototype.onPointerUp = function (e) {
     if (this.autoPreventInteraction) {
         e.stopPropagation();
     }
@@ -619,7 +618,7 @@ InputControl.prototype.onDown = function (e) {
         originalEvent.preventDefault();
         return false;
     }
-    this.inPutBaseOnDown(e);
+    this.inPutBaseOnUp(e);
     // start the selection drag if inside the input
     // TODO: move to wrapper
     KeyboardManager.wrapper.selectionStart = this.pixelToTextPos(mouse);
@@ -635,24 +634,6 @@ InputControl.prototype.onDown = function (e) {
     return true;
 };
 
-InputControl.prototype.inputBaseOnUp = InputBase.prototype.onUp;
-
-InputControl.prototype.onUp = function (e) {
-    if (this.autoPreventInteraction) {
-        e.stopPropagation();
-    }
-
-    var originalEvent = e.data.originalEvent;
-    if (originalEvent.which === 2 || originalEvent.which === 3) {
-        originalEvent.preventDefault();
-        return false;
-    }
-
-    KeyboardManager.wrapper.selectionStart = 0;
-    this.inputBaseOnUp();
-
-    return true;
-};
 
 /**
  * from position in the text to pixel position
