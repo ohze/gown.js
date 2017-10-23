@@ -146,7 +146,9 @@ DOMInputWrapper.prototype.focus = function (tagName) {
     this.tagName = tagName;
     if (DOMInputWrapper.hiddenInput[this.tagName]) {
         DOMInputWrapper.hiddenInput[this.tagName].focus();
-        window.cordova.plugins.Keyboard.show();
+        if (!PLATFORM_WEB) {
+            window.cordova.plugins.Keyboard.show();
+        }
     }
 };
 
