@@ -116,9 +116,9 @@ DOMInputWrapper.prototype.removeEventListener = function (domInput) {
 };
 
 DOMInputWrapper.prototype.onBlur = function () {
-    if (InputControl.currentInput) {
-        InputControl.currentInput.onMouseUpOutside();
-    }
+    // if (InputControl.currentInput) {
+    //     InputControl.currentInput.onMouseUpOutside();
+    // }
 };
 
 DOMInputWrapper.prototype.onKeyUp = function (event) {
@@ -138,11 +138,6 @@ DOMInputWrapper.prototype.onKeyDown = function (event) {
 DOMInputWrapper.textProp = 'value';
 
 /**
- * set device for dom input
- */
-DOMInputWrapper.platform = 'web';
-
-/**
  * activate the dom text input / text area
  * if the InputControl receives the text or not is defined in the focus function
  * of the InputControl itself. There
@@ -151,6 +146,7 @@ DOMInputWrapper.prototype.focus = function (tagName) {
     this.tagName = tagName;
     if (DOMInputWrapper.hiddenInput[this.tagName]) {
         DOMInputWrapper.hiddenInput[this.tagName].focus();
+        window.cordova.plugins.Keyboard.show();
     }
 };
 
@@ -173,13 +169,11 @@ DOMInputWrapper.prototype.blur = function () {
  */
 Object.defineProperty(DOMInputWrapper.prototype, 'text', {
     get: function () {
-        var textProp = DOMInputWrapper.textProp;
-        var txt = DOMInputWrapper.hiddenInput[this.tagName][textProp];
+        var txt = DOMInputWrapper.hiddenInput[this.tagName][DOMInputWrapper.textProp];
         return txt.replace(/\r/g, '');
     },
     set: function (value) {
-        var textProp = DOMInputWrapper.textProp;
-        DOMInputWrapper.hiddenInput[this.tagName][textProp] = value;
+        DOMInputWrapper.hiddenInput[this.tagName][DOMInputWrapper.textProp] = value;
     }
 });
 

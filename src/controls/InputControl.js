@@ -502,16 +502,17 @@ InputControl.prototype.focus = function () {
     InputControl.currentInput = this;
     console.log("focus", this.text, this.cursorPos);
 
-    KeyboardManager.wrapper.focus(this.wrapperType);
-
     // update the hidden input text, type, maxchars
     KeyboardManager.wrapper.text = this.value;
     KeyboardManager.wrapper.type = this._inputType;
+
     this.maxChars = this._maxChars;
     if (this._prevSelection) KeyboardManager.wrapper.updateSelection(this._prevSelection[0], this._prevSelection[1]);
+
     // update cursor position
     this.setCursorPos();
     KeyboardManager.wrapper.setCursorPos(this.cursorPos);
+    KeyboardManager.wrapper.focus(this.wrapperType);
     this._cursorNeedsUpdate = true;
 
     this.inputBaseFocus();
@@ -525,14 +526,14 @@ InputControl.prototype.inputBaseBlur = InputBase.prototype.blur;
  * @method blur
  */
 InputControl.prototype.blur = function () {
+    // blur hidden input (if DOMInputWrapper is used)
     if (InputControl.currentInput === this) {
         this._prevSelection = KeyboardManager.wrapper.selection;
-        InputControl.currentInput = null;
-        // blur hidden input (if DOMInputWrapper is used)
         if (this.hasFocus) KeyboardManager.wrapper.blur();
         this.inputBaseBlur();
         this._selectionNeedsUpdate = true;
         this._cursorNeedsUpdate = true;
+        InputControl.currentInput = null;
     }
 };
 
@@ -818,8 +819,10 @@ Object.defineProperty(InputControl.prototype, 'offsetKeyBoard', {
 
 InputControl.prototype.adjustScrollY = function (screenHeight, keyboardHeight) {
     var global = this.toGlobal(this.cursorView ? this.cursorView.position : new Point(0, 0));
-    if (global.y + this.height > screenHeight - keyboardHeight - this.offsetKeyBoard) {
-        return -Math.min(screenHeight - (global.y + this.height + keyboardHeight + this.offsetKeyBoard), screenHeight - keyboardHeight);
+    if (global.y > keyboardHeight + this.offsetKeyBoard) {
+        return global.y - this.offsetKeyBoard;
+    } else if (global.y > this.offsetKeyBoard){
+        return Math.min(global.y - this.offsetKeyBoard, keyboardHeight);
     } else {
         return 0;
     }
