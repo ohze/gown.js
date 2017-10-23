@@ -25,8 +25,7 @@ function ScrollThumb(scrollable, theme, skinName) {
 
     Button.call(this, theme, this.skinName);
     this.invalidTrack = true;
-    this._isScrolling = false;
-    this.scrollingFuc = undefined;
+
 
     this.on('pointermove', this.handleMove, this);
 
@@ -37,6 +36,7 @@ function ScrollThumb(scrollable, theme, skinName) {
 
     this.on('pointerup', this.handleUp, this);
     this.on('pointerupoutside', this.handleUp, this);
+    this.fromSkin(this.scrollable.direction+'_thumb', this.showTrack);
 }
 
 ScrollThumb.prototype = Object.create( Button.prototype );
@@ -76,10 +76,6 @@ ScrollThumb.prototype.handleDown = function(mouseData) {
     this.scrollable._start = [local.x, local.y];
     //this.scrollable.handleDown(mouseData);
     mouseData.stopPropagation();
-    this._isScrolling = true;
-    if(this.scrollingFuc !== undefined && this._isScrolling){
-        this.scrollingFuc();
-    }
 };
 
 ScrollThumb.prototype.handleMove = function (mouseData) {
@@ -87,7 +83,6 @@ ScrollThumb.prototype.handleMove = function (mouseData) {
 };
 
 ScrollThumb.prototype.handleUp = function (mouseData) {
-    this._isScrolling = false;
     this.scrollable.handleUp(mouseData);
 };
 
@@ -106,8 +101,7 @@ ScrollThumb.prototype.showTrack = function(skin) {
         this.addChild(skin);
         this.skin = skin;
     }
-    //skin.x = Math.floor((this.width - skin.getBounds().width )/ 2);
-    //skin.y = Math.floor((this.height - skin.getBounds().height )/ 2);
+    //skzht - skin.getBounds().height )/ 2);
     this.invalidTrack = false;
 };
 

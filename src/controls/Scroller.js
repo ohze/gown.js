@@ -145,7 +145,6 @@ function Scroller(theme) {
     this._throwElasticity = 0.05;
 
     this.scrolldelta = 10;
-    this.scrollingFuc = undefined;
 }
 
 Scroller.prototype = Object.create(Control.prototype);
@@ -590,10 +589,6 @@ Scroller.prototype.refreshInteractionModeEvents = function () {
 Scroller.prototype.onDown = function (event) {
     this._startTouch = event.data.getLocalPosition(this);
     this._isScrollingStopped = false;
-
-    if(this.scrollingFuc !== undefined && this._isScrolling){
-        this.scrollingFuc();
-    }
 
     if (!this.touchMoveEventsAdded) {
         this.on('pointerupoutside', this.onUp, this);

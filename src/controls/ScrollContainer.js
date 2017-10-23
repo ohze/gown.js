@@ -18,13 +18,14 @@ ScrollContainer.prototype.constructor = ScrollContainer;
 module.exports = ScrollContainer;
 
 ScrollContainer.prototype.updateScrollBar = function() {
-    if(this !== undefined && this.sdScrollBar !== undefined && this.sdScrollBar.thumb !== undefined && this.viewPort !== undefined){
+    if(this !== undefined && this.sdScrollBar !== undefined && this.sdScrollBar.thumb !== undefined && this.sdScrollBar.thumb.skin !== undefined && this.viewPort !== undefined){
+        this.sdScrollBar.redraw();
         this.sdScrollBar.moveThumb(
             Math.floor(
                 -this.viewPort.x / (this.viewPort.width - this.width) * (this.sdScrollBar.width - this.sdScrollBar.thumb.width)
             ),
             Math.floor(
-                -this.viewPort.y / (this.viewPort.height - this.height) * (this.sdScrollBar.height - this.sdScrollBar.thumb.height)
+                -this.viewPort.y / (this.viewPort.height - this.height) * (this.sdScrollBar.height - this.sdScrollBar.thumb.skin.height)
             )
         );
         this.sdScrollBar.thumbMoved(
@@ -32,16 +33,16 @@ ScrollContainer.prototype.updateScrollBar = function() {
                 -this.viewPort.x / (this.viewPort.width - this.width) * (this.sdScrollBar.width - this.sdScrollBar.thumb.width)
             ),
             Math.floor(
-                -this.viewPort.y / (this.viewPort.height - this.height) * (this.sdScrollBar.height - this.sdScrollBar.thumb.height)
+                -this.viewPort.y / (this.viewPort.height - this.height) * (this.sdScrollBar.height - this.sdScrollBar.thumb.skin.height)
             )
         );
     }
 };
 
 ScrollContainer.prototype.scrollToEnd = function() {
-    if(this.sdScrollBar !== undefined && this.sdScrollBar.thumb !== undefined && this.viewPort !== undefined && this !== undefined){
+    if(this.sdScrollBar !== undefined && this.sdScrollBar.thumb !== undefined && this.sdScrollBar.thumb.skin !== undefined && this.viewPort !== undefined && this !== undefined){
         if(this.sdScrollBar.direction === 'vertical'){
-            this.viewPort.y = this.x + this.height - this.viewPort.height;
+            this.viewPort.y = this.y + this.height - this.viewPort.height;
             this.updateScrollBar();
         }
     }
@@ -50,7 +51,7 @@ ScrollContainer.prototype.scrollToEnd = function() {
 ScrollContainer.prototype.checkNewContent = function () {
     if(!this.isScrollToEnd && this.sdScrollBar.visible){
         if(this !== undefined && this.viewPort !== undefined && this.sdScrollBar.direction === 'vertical'){
-            if(this.viewPort.y > this.x + this.height - this.viewPort.height){
+            if(this.viewPort.y > this.y + this.height - this.viewPort.height){
                 return true;
             }
         }
@@ -62,7 +63,7 @@ ScrollContainer.prototype.scrollContainerCheckForDrag = Scroller.prototype.check
 
 ScrollContainer.prototype.checkForDrag = function (currentTouch) {
     this.scrollContainerCheckForDrag(currentTouch);
-    if(this.sdScrollBar && this.sdScrollBar.thumb && this.viewPort){
+    if(this.sdScrollBar && this.sdScrollBar.thumb && this.sdScrollBar.thumb.skin && this.viewPort){
         if (this._isScrollingStopped) {
             return;
         }
@@ -74,12 +75,9 @@ ScrollContainer.prototype.updateVerticalScrollFromTouchPosition = function (touc
     var offset, position;
     if (isScrollBar) {
         offset = touchY;
+        position = offset;
     } else {
         offset = touchY - this._startTouch.y;
-    }
-    if(isScrollBar) {
-        position = offset;
-    }else {
         position = this._startScrollPosition.y + offset;
     }
     if (this.viewPort.height > this.height) {

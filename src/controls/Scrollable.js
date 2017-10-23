@@ -35,8 +35,6 @@ function Scrollable(theme) {
 
     this.on('pointerupoutside', this.handleUp, this);
     this.on('pointerup', this.handleUp, this);
-    this.scrollingFuc = undefined;
-    this._isScrolling = false;
     this.thumbFactoryInvalid = true;
 }
 
@@ -103,16 +101,12 @@ Scrollable.prototype.handleDown = function(mouseData) {
     var local = mouseData.data.getLocalPosition(this);
     var center = {
         x: local.x - this.thumb.width / 2,
-        y: local.y - this.thumb.height / 2
+        y: local.y - this.thumb.skin.height / 2
     };
     if (mouseData.target === this &&
         this.moveThumb(center.x, center.y)) {
         this._start = [local.x, local.y];
         this.thumbMoved(center.x, center.y);
-    }
-    this._isScrolling = true;
-    if(this.scrollingFuc !== undefined && this._isScrolling){
-        this.scrollingFuc();
     }
 };
 
@@ -137,7 +131,6 @@ Scrollable.prototype.increment = function() {
  */
 Scrollable.prototype.handleUp = function() {
     this._start = null;
-    this._isScrolling = false;
 };
 
 /**
@@ -211,7 +204,7 @@ Scrollable.prototype._updateProgressSkin = function() {
             this.progressSkin.height = this.skin.height;
         }
     } else {
-        var progressPosY = this.thumb.y + this.thumb.height / 2;
+        var progressPosY = this.thumb.y + this.thumb.skin.height / 2;
         if (this.inverse) {
             this.progressSkin.y = progressPosY;
             this.progressSkin.height = this.height - progressPosY;
@@ -243,7 +236,7 @@ Scrollable.prototype.maxWidth = function() {
  * @returns {Number}
  */
 Scrollable.prototype.maxHeight = function() {
-    return this.height - this.thumb.height;
+    return this.height - this.thumb.skin.height;
 };
 
 /**

@@ -25,6 +25,8 @@ function ScrollBar(direction, theme) {
     //     // move thumb when viewPort moves
     //     container[this.direction + '_bar'] = this;
     // }
+    this.forceRedraw = true;
+    this.countRedraw = 0;
     Scrollable.call(this, theme);
 }
 
@@ -43,17 +45,22 @@ ScrollBar.prototype.scrollableredraw = Scrollable.prototype.redraw;
  * @method redraw
  */
 ScrollBar.prototype.redraw = function() {
-    if (this.invalidTrack) {
+    if (this.invalidTrack || this.forceRedraw) {
         if (this.container && this.container.viewPort && this.thumb) {
             if (this.container.viewPort.layout.alignment === Scrollable.HORIZONTAL) {
                 this.thumb.width = Math.max(this.minThumbWidth,
                     this.container.width / (this.container.viewPort.width / this.container.width));
             } else {
-                this.thumb.height = Math.max(this.minThumbHeight,
+                this.thumb.skin.height = Math.max(this.minThumbHeight,
                     this.container.height / (this.container.viewPort.height / this.container.height));
             }
         }
         this.scrollableredraw(this);
+        if(this.countRedraw > 2) {
+            this.forceRedraw = false;
+            this.countRedraw = 0;
+        }
+        this.countRedraw++;
     }
 };
 
@@ -67,7 +74,7 @@ ScrollBar.prototype.thumbMoved = function(x, y) {
     if (this.container && this.container.viewPort) {
         if(this.container.viewPort.layout.alignment === 'vertical'){
             this.container.updateVerticalScrollFromTouchPosition(
-                -(this.container.viewPort.height - this.container.height) * (y / (this.height - this.thumb.height)),
+                -(this.container.viewPort.height - this.container.height) * (y / (this.height - this.thumb.skin.height)),
                 true
             );
         }else {

@@ -316,6 +316,8 @@ declare module GOWN {
         scrollableredraw(any);
 
         timelineHeight(duration: number, delay: number);
+
+        forceRedraw:boolean;
     }
 
     export class ScrollThumb extends Button {
