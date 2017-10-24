@@ -51,7 +51,7 @@ function InputControl(isWeb, theme, settings) {
 
     this.clippingInvalid = true;
 
-    this._offsetKeyBoard = 0;
+    this._offsetKeyBoard = -1000;
 
 
     this.currentState = InputControl.UP;
@@ -818,12 +818,16 @@ Object.defineProperty(InputControl.prototype, 'offsetKeyBoard', {
 });
 
 InputControl.prototype.adjustScrollY = function (screenHeight, keyboardHeight) {
-    var global = this.toGlobal(this.cursorView ? this.cursorView.position : new Point(0, 0));
-    if (global.y > keyboardHeight + this.offsetKeyBoard) {
-        return global.y - this.offsetKeyBoard;
-    } else if (global.y > this.offsetKeyBoard){
-        return Math.min(global.y - this.offsetKeyBoard, keyboardHeight);
-    } else {
-        return 0;
+    if (this.offsetKeyBoard === -1000){
+        return keyboardHeight;
+    }else {
+        var global = this.toGlobal(this.cursorView ? this.cursorView.position : new Point(0, 0));
+        if (global.y > keyboardHeight + this.offsetKeyBoard) {
+            return global.y - this.offsetKeyBoard;
+        } else if (global.y > this.offsetKeyBoard) {
+            return Math.min(global.y - this.offsetKeyBoard, keyboardHeight);
+        } else {
+            return 0;
+        }
     }
 };
