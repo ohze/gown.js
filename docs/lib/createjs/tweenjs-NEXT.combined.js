@@ -1600,10 +1600,9 @@ this.createjs = this.createjs||{};
 		if (props&&props.paused) { this._paused=true; }
 		else { createjs.Tween._register(this,true); }
 		if (props&&props.position!=null) { this.setPosition(props.position, Tween.NONE); }
-
-	};
-
-	var p = createjs.extend(Tween, createjs.EventDispatcher);
+    
+}
+    var p = createjs.extend(Tween, createjs.EventDispatcher);
 
 	// TODO: deprecated
 	// p.initialize = function() {}; // searchable for devs wondering where it is. REMOVED. See docs for details.
@@ -2379,10 +2378,9 @@ this.createjs = this.createjs||{};
 		if (props&&props.paused) { this._paused=true; }
 		else { createjs.Tween._register(this,true); }
 		if (props&&props.position!=null) { this.setPosition(props.position, createjs.Tween.NONE); }
-		
-	};
-	
-	var p = createjs.extend(Timeline, createjs.EventDispatcher);
+    
+}
+    var p = createjs.extend(Timeline, createjs.EventDispatcher);
 
 	// TODO: deprecated
 	// p.initialize = function() {}; // searchable for devs wondering where it is. REMOVED. See docs for details.
@@ -3126,9 +3124,7 @@ this.createjs = this.createjs||{};
 	 **/
 	function MotionGuidePlugin() {
 		throw("MotionGuidePlugin cannot be instantiated.")
-	};
-
-
+    }
 // static properties:
 	/**
 	 * @property priority

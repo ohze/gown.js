@@ -33,8 +33,7 @@ Just like Paint, select a shape and draw it on the canvas:<br />
     
     function drawTool(tool) {
         selectedTool = tool;
-    };
-    
+    }
     var renderer = PIXI.autoDetectRenderer(800, 600,{backgroundColor : 0xffffff});
     document.body.appendChild(renderer.view);
     var stage = new PIXI.Container();
@@ -51,19 +50,16 @@ Just like Paint, select a shape and draw it on the canvas:<br />
         preview = updatePreview();
         startpos = preview.position = e.data.global.clone();
         stage.addChild(preview);
-    };
-    
+    }
     function mouseMove(e) {
         if (startpos && preview) {
             preview.width = e.data.global.x - startpos.x;
             preview.height = e.data.global.y - startpos.y;
         }
-    };
-    
+    }
     function mouseUp(e) {
         startpos = null;
-    };   
-    
+    }
     var rect = new GOWN.shapes.Rect(0xffffff, 1, 800, 600);
     rect.interactive = true;
     rect.on("mousedown", mouseDown);

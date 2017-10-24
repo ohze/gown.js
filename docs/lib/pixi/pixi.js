@@ -28,28 +28,28 @@ exports.INT_MIN   = -1<<(INT_BITS-1);
 //Returns -1, 0, +1 depending on sign of x
 exports.sign = function(v) {
   return (v > 0) - (v < 0);
-}
+};
 
 //Computes absolute value of integer
 exports.abs = function(v) {
   var mask = v >> (INT_BITS-1);
   return (v ^ mask) - mask;
-}
+};
 
 //Computes minimum of integers x and y
 exports.min = function(x, y) {
   return y ^ ((x ^ y) & -(x < y));
-}
+};
 
 //Computes maximum of integers x and y
 exports.max = function(x, y) {
   return x ^ ((x ^ y) & -(x < y));
-}
+};
 
 //Checks if a number is a power of two
 exports.isPow2 = function(v) {
   return !(v & (v-1)) && (!!v);
-}
+};
 
 //Computes log base 2 of v
 exports.log2 = function(v) {
@@ -59,21 +59,21 @@ exports.log2 = function(v) {
   shift = (v > 0xF   ) << 2; v >>>= shift; r |= shift;
   shift = (v > 0x3   ) << 1; v >>>= shift; r |= shift;
   return r | (v >> 1);
-}
+};
 
 //Computes log base 10 of v
 exports.log10 = function(v) {
   return  (v >= 1000000000) ? 9 : (v >= 100000000) ? 8 : (v >= 10000000) ? 7 :
           (v >= 1000000) ? 6 : (v >= 100000) ? 5 : (v >= 10000) ? 4 :
           (v >= 1000) ? 3 : (v >= 100) ? 2 : (v >= 10) ? 1 : 0;
-}
+};
 
 //Counts number of bits
 exports.popCount = function(v) {
   v = v - ((v >>> 1) & 0x55555555);
   v = (v & 0x33333333) + ((v >>> 2) & 0x33333333);
   return ((v + (v >>> 4) & 0xF0F0F0F) * 0x1010101) >>> 24;
-}
+};
 
 //Counts number of trailing zeros
 function countTrailingZeros(v) {
@@ -99,7 +99,7 @@ exports.nextPow2 = function(v) {
   v |= v >>> 8;
   v |= v >>> 16;
   return v + 1;
-}
+};
 
 //Rounds down to previous power of 2
 exports.prevPow2 = function(v) {
@@ -109,7 +109,7 @@ exports.prevPow2 = function(v) {
   v |= v >>> 8;
   v |= v >>> 16;
   return v - (v>>>1);
-}
+};
 
 //Computes parity of word
 exports.parity = function(v) {
@@ -118,7 +118,7 @@ exports.parity = function(v) {
   v ^= v >>> 4;
   v &= 0xf;
   return (0x6996 >>> v) & 1;
-}
+};
 
 var REVERSE_TABLE = new Array(256);
 
@@ -140,7 +140,7 @@ exports.reverse = function(v) {
           (REVERSE_TABLE[(v >>> 8)  & 0xff] << 16) |
           (REVERSE_TABLE[(v >>> 16) & 0xff] << 8)  |
            REVERSE_TABLE[(v >>> 24) & 0xff];
-}
+};
 
 //Interleave bits of 2 coordinates with 16 bits.  Useful for fast quadtree codes
 exports.interleave2 = function(x, y) {
@@ -157,7 +157,7 @@ exports.interleave2 = function(x, y) {
   y = (y | (y << 1)) & 0x55555555;
 
   return x | (y << 1);
-}
+};
 
 //Extracts the nth interleaved component
 exports.deinterleave2 = function(v, n) {
@@ -167,7 +167,7 @@ exports.deinterleave2 = function(v, n) {
   v = (v | (v >>> 4))  & 0x00FF00FF;
   v = (v | (v >>> 16)) & 0x000FFFF;
   return (v << 16) >> 16;
-}
+};
 
 
 //Interleave bits of 3 coordinates, each with 10 bits.  Useful for fast octree codes
@@ -192,7 +192,7 @@ exports.interleave3 = function(x, y, z) {
   z  = (z | (z<<2))  & 1227133513;
   
   return x | (z << 2);
-}
+};
 
 //Extracts nth interleaved component of a 3-tuple
 exports.deinterleave3 = function(v, n) {
@@ -202,7 +202,7 @@ exports.deinterleave3 = function(v, n) {
   v = (v | (v>>>8))   & 4278190335;
   v = (v | (v>>>16))  & 0x3FF;
   return (v<<22)>>22;
-}
+};
 
 //Computes next combination in colexicographic order (this is mistakenly called nextPermutation on the bit twiddling hacks page)
 exports.nextCombination = function(v) {
@@ -1339,7 +1339,7 @@ function shouldUseNative() {
 		// Detect buggy property enumeration order in older V8 versions.
 
 		// https://bugs.chromium.org/p/v8/issues/detail?id=4118
-		var test1 = new String('abc');  // eslint-disable-line no-new-wrappers
+		var test1 = String('abc');  // eslint-disable-line no-new-wrappers
 		test1[5] = 'de';
 		if (Object.getOwnPropertyNames(test1)[0] === '5') {
 			return false;
@@ -3321,7 +3321,7 @@ function defaultClearTimeout () {
     } catch (e) {
         cachedClearTimeout = defaultClearTimeout;
     }
-} ())
+} ());
 function runTimeout(fun) {
     if (cachedSetTimeout === setTimeout) {
         //normal enviroments in sane situations
@@ -3469,9 +3469,8 @@ process.umask = function() { return 0; };
 },{}],25:[function(require,module,exports){
 (function (global){
 /*! https://mths.be/punycode v1.4.1 by @mathias */
-;(function(root) {
-
-	/** Detect free variables */
+    (function (root) {
+        /** Detect free variables */
 	var freeExports = typeof exports == 'object' && exports &&
 		!exports.nodeType && exports;
 	var freeModule = typeof module == 'object' && module &&
@@ -7246,10 +7245,10 @@ exports['default'] = MiniSignal;
 module.exports = exports['default'];
 
 },{}],38:[function(require,module,exports){
-'use strict'
+'use strict';
 
 module.exports = function parseURI (str, opts) {
-  opts = opts || {}
+  opts = opts || {};
 
   var o = {
     key: ['source', 'protocol', 'authority', 'userInfo', 'user', 'password', 'host', 'port', 'relative', 'path', 'directory', 'file', 'query', 'anchor'],
@@ -7261,18 +7260,18 @@ module.exports = function parseURI (str, opts) {
       strict: /^(?:([^:\/?#]+):)?(?:\/\/((?:(([^:@]*)(?::([^:@]*))?)?@)?([^:\/?#]*)(?::(\d*))?))?((((?:[^?#\/]*\/)*)([^?#]*))(?:\?([^#]*))?(?:#(.*))?)/,
       loose: /^(?:(?![^:@]+:[^:@\/]*@)([^:\/?#.]+):)?(?:\/\/)?((?:(([^:@]*)(?::([^:@]*))?)?@)?([^:\/?#]*)(?::(\d*))?)(((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[?#]|$)))*\/?)?([^?#\/]*))(?:\?([^#]*))?(?:#(.*))?)/
     }
-  }
+  };
 
-  var m = o.parser[opts.strictMode ? 'strict' : 'loose'].exec(str)
-  var uri = {}
-  var i = 14
+  var m = o.parser[opts.strictMode ? 'strict' : 'loose'].exec(str);
+  var uri = {};
+  var i = 14;
 
-  while (i--) uri[o.key[i]] = m[i] || ''
+  while (i--) uri[o.key[i]] = m[i] || '';
 
-  uri[o.q.name] = {}
+  uri[o.q.name] = {};
   uri[o.key[12]].replace(o.q.parser, function ($0, $1, $2) {
     if ($1) uri[o.q.name][$1] = $2
-  })
+  });
 
   return uri
 }
