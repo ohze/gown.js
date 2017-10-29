@@ -1,16 +1,26 @@
 {
-  "name": "gown.js",
+  "name": "@ohze/gown.js",
   "version": "0.2.0",
-  "description": "Pixi UI provides basic UI components for Pixi.js. Inspired by feathers UI",
-  "author": "Andreas Bresser",
+  "description": "gown.js provides basic UI components for Pixi.js. Inspired by feathers UI",
+  "author": "Grey Rook GmbH",
+  "contributors": [
+    "Nguyễn Xuân Trường <truongnx@sandinh.net>",
+    "Bùi Thế Vinh <vinhbt@sandinh.net>",
+    "Đỗ Xuân Quyết <quyetdx@sandinh.net>",
+    "Đỗ Đức Cường <cuongdd@sandinh.net>",
+    "Vũ Tiến Dũng <dungvt@sandinh.net>",
+    "Dương Thanh Hải <haidt@sandinh.net",
+    "Tô Tấn Tài <taitt@sandinh.net>",
+    "Bùi Việt Thành <thanhbv@sandinh.net>"
+  ],
   "main": "./src/index.js",
-  "homepage": "http://github.com/GreyRook/gown.js/",
-  "bugs": "https://github.com/GreyRook/gown.js/issues",
+  "homepage": "http://github.com/ohze/gown.js",
+  "bugs": "https://github.com/ohze/gown.js/issues",
   "license": "Apache-2.0",
   "licenseUrl": "http://opensource.org/licenses/Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/GreyRook/gown.js.git"
+    "url": "https://github.com/ohze/gown.js.git"
   },
   "scripts": {
     "build": "npm run dist",
@@ -19,11 +29,13 @@
     "dist": "webpack --config webpack-development.config.js && webpack --config webpack-production.config.js",
     "precoverage": "rimraf coverage",
     "predist": "rimraf docs/dist/**",
-    "preinstall": "npm i -g webpack@^2.2.1",
-    "test": "floss -p test/index.js"
+    "test": "floss -p test/index.js",
+    "predocs": "rimraf docs/api/**",
+    "docs": "jsdoc -c jsdoc.conf.json -R README.md"
   },
   "files": [
     "dist/",
+    "src/",
     "CONTRIBUTING.md",
     "LICENSE",
     "package.json",
@@ -34,11 +46,13 @@
   },
   "devDependencies": {
     "electron": "^1.4.15",
-    "eslint": "^3.5.0",
+    "eslint": "^4.10.0",
     "floss": "^2.0.1",
+    "jaguarjs-jsdoc": "^1.0.2",
+    "jsdoc": "^3.4.3",
+    "local-bin-path": "^2.0.4",
     "mkdirp": "^0.5.1",
     "path": "^0.12.7",
-    "rimraf": "^2.5.1",
-    "webpack": "^2.2.1"
+    "rimraf": "^2.5.1"
   }
 }

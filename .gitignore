@@ -1,12 +1,10 @@
-dist/
-docs/dist/
+/dist/
+/docs/dist/
 lib-cov/
 coverage
 node_modules/
-.grunt
-test/gen/
+/test/gen/
 *.log
-**/*.*~
 **/*.pyc
 themes/from_feathers/feathers
 .idea/
