@@ -392,7 +392,7 @@ Scrollable.prototype.positionThumb = function(value) {
  */
 Object.defineProperty(Scrollable.prototype, 'width', {
     get: function() {
-        return this._width;
+        return this._width? this._width: this.scale.x * this.getLocalBounds().width;
     },
     set: function(width) {
         this._width = width;
@@ -439,7 +439,7 @@ Object.defineProperty(Scrollable.prototype, 'inverse', {
  */
 Object.defineProperty(Scrollable.prototype, 'height', {
     get: function() {
-        return this._height;
+        return this._height? this._height: this.scale.y * this.getLocalBounds().height;
     },
     set: function(height) {
         this._height = height;
