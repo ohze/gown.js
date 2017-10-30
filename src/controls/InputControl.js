@@ -818,10 +818,17 @@ Object.defineProperty(InputControl.prototype, 'offsetKeyBoard', {
 });
 
 InputControl.prototype.adjustScrollY = function (screenHeight, keyboardHeight) {
+
+    var global = this.toGlobal(this.cursorView ? this.cursorView.position : new Point(0, 0));
+
     if (this.offsetKeyBoard === -1000){
-        return keyboardHeight;
+        if (global.y + this.height + keyboardHeight < screenHeight) {
+            return 0;
+        }else {
+            return Math.min(keyboardHeight, global.y - (this.cursorView ? this.cursorView.y : 0));
+        }
     }else {
-        var global = this.toGlobal(this.cursorView ? this.cursorView.position : new Point(0, 0));
+
         if (global.y > keyboardHeight + this.offsetKeyBoard) {
             return global.y - this.offsetKeyBoard;
         } else if (global.y > this.offsetKeyBoard) {
