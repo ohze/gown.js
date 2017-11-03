@@ -646,6 +646,7 @@ declare module GOWN {
 
         setPixiText(text: string): void;
         updateSelectionBg(): void;
+        _inputType
     }
 
     export class TextArea extends InputControl {
