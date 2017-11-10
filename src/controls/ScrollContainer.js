@@ -63,7 +63,7 @@ ScrollContainer.prototype.scrollContainerCheckForDrag = Scroller.prototype.check
 
 ScrollContainer.prototype.checkForDrag = function (currentTouch) {
     this.scrollContainerCheckForDrag(currentTouch);
-    if(this.sdScrollBar && this.sdScrollBar.thumb && this.sdScrollBar.thumb.skin && this.viewPort){
+    if(this.sdScrollBar && this.sdScrollBar.thumb && this.sdScrollBar.thumb.skin && this.viewPort && (this._isDraggingVertically || this._isDraggingHorizontally)){
         if (this._isScrollingStopped) {
             return;
         }

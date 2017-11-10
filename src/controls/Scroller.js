@@ -604,6 +604,7 @@ Scroller.prototype.onDown = function (event) {
 
 Scroller.prototype.onUp = function () {
     this._isScrollingStopped = true;
+    this._isDraggingVertically = this._isDraggingHorizontally = false;
 };
 
 Scroller.prototype.onMove = function (event) {
