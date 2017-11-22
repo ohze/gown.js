@@ -316,7 +316,7 @@ Scrollable.prototype.redraw = function() {
                 this.thumb.y = this.skin.y + Math.floor((this.skin.height - this.thumb.height) / 2 );
             } else {
                 this.skin.height = this.height;
-                this.thumb.x = this.skin.x + Math.floor((this.skin.width - this.thumb.width) / 2 );
+                this.thumb.x = (this.progressSkin.width - this.thumb.skin.width) / 2;
             }
             this.invalidTrack = false;
         }
