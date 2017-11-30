@@ -122,6 +122,16 @@ TextArea.prototype._drawSelectionBg = function (fromTextPos, toTextPos) {
 
 TextArea.prototype.getLines = function() {
     var style = this.pixiText ? this.pixiText.style : this.style;
-    var wrappedText = PIXI.TextMetrics.wordWrap(this.text, style);
+    var wrappedText = PIXI.TextMetrics.wordWrap(this.text, new PIXI.TextStyle ({
+        padding: 2,
+        fontFamily: "Roboto Bold",
+        fontSize: 14,
+        fill: 0x715844,
+        wordWrap: true,
+        wordWrapWidth: 500,
+        breakWords: true,
+        align: "left"
+    }));
+
     return wrappedText.split(/(?:\r\n|\r|\n)/);
 };
