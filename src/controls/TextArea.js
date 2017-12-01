@@ -28,6 +28,9 @@ function TextArea(isWeb, theme, skinName) {
     this._toPos = new PIXI.Point(0, 0);
     this._fromText = new PIXI.Point(0, 0);
     this._toText = new PIXI.Point(0, 0);
+
+    // Todo:fix sau
+    this.maxChars = 500;
 }
 
 TextArea.prototype = Object.create(InputControl.prototype);
