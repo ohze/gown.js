@@ -1,5 +1,4 @@
-var InputWrapper = require('./InputWrapper'),
-    InputControl = require('../controls/InputControl');
+var InputWrapper = require('./InputWrapper')
 
 /**
  * Wrapper for InputControl to use the browser DOM Text Input.
@@ -48,7 +47,7 @@ DOMInputWrapper.hiddenInput = {
 /**
  * create/return unique input field.
  * @param tagName used dom element (input or textarea)
- * @returns {DOMObject}
+ * @returns {Element}
  */
 DOMInputWrapper.prototype.createInput = function (tagName) {
     this.tagName = tagName;
@@ -72,8 +71,6 @@ DOMInputWrapper.prototype.hideInput = function (domInput) {
     domInput.style.position = 'fixed';
     domInput.style.opacity = 0;
     domInput.style.pointerEvents = 'none';
-    domInput.style.left = '-100px';
-    domInput.style.top = '-100px';
     domInput.style.zIndex = 10;
 
     // domInput.style.position = 'fixed';
