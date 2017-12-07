@@ -72,15 +72,14 @@ DOMInputWrapper.prototype.hideInput = function (domInput) {
     domInput.style.position = 'fixed';
     domInput.style.opacity = 0;
     domInput.style.pointerEvents = 'none';
-    domInput.style.left = '-100px';
-    domInput.style.top = '-100px';
+    domInput.style.left = '9999px';
     domInput.style.zIndex = 10;
 
     // domInput.style.position = 'fixed';
     // domInput.style.zIndex = 99999999999999;
 };
 
-/**
+/**¬
  * add keyboard events for DOM elements
  */
 DOMInputWrapper.prototype.addEventListener = function (domInput) {
