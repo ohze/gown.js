@@ -125,26 +125,26 @@ var InputController = {
         return false;
     },
     keyDownEvent: function (e) {
-        // if (e.which === 9) {
-        //     if (InputController.fireTab()) {
-        //         e.preventDefault();
-        //     }
-        // }
-        // else if (e.which === 38) {
-        //     if (InputController.firePrev()) {
-        //         e.preventDefault();
-        //     }
-        // }
-        // else if (e.which === 40) {
-        //     if (InputController.fireNext()) {
-        //         e.preventDefault();
-        //     }
-        // }
-        // else if (e.which === 13){
-        //     if (InputController.enter()) {
-        //         e.preventDefault();
-        //     }
-        // }
+        if (e.which === 9) {
+            if (InputController.fireTab()) {
+                e.preventDefault();
+            }
+        }
+        else if (e.which === 38) {
+            if (InputController.firePrev()) {
+                e.preventDefault();
+            }
+        }
+        else if (e.which === 40) {
+            if (InputController.fireNext()) {
+                e.preventDefault();
+            }
+        }
+        else if (e.which === 13){
+            if (InputController.enter()) {
+                e.preventDefault();
+            }
+        }
     }
 };
 
